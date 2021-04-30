@@ -394,3 +394,23 @@ resource "aws_route_table_association" "vpc-c-rt-private-ass-subdb-az-d" {
   subnet_id      = aws_subnet.vpc-c-subnet-db-d.id
   route_table_id = aws_route_table.vpc-c-rt-private.id
 }
+resource "aws_vpc_peering_connection" "vpc-a-peering-b" {
+  peer_vpc_id = aws_vpc.vpc-a.id
+  vpc_id      = aws_vpc.vpc-b.id
+  auto_accept = true
+}
+resource "aws_vpc_peering_connection" "vpc-a-peering-c" {
+  peer_vpc_id = aws_vpc.vpc-a.id
+  vpc_id      = aws_vpc.vpc-c.id
+  auto_accept = true
+}
+resource "aws_vpc_peering_connection" "vpc-b-peering-a" {
+  peer_vpc_id = aws_vpc.vpc-b.id
+  vpc_id      = aws_vpc.vpc-a.id
+  auto_accept = true
+}
+resource "aws_vpc_peering_connection" "vpc-c-peering-a" {
+  peer_vpc_id = aws_vpc.vpc-c.id
+  vpc_id      = aws_vpc.vpc-a.id
+  auto_accept = true
+}
