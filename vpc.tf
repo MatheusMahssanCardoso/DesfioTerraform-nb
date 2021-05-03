@@ -399,18 +399,28 @@ resource "aws_vpc_peering_connection" "vpc-a-peering-b" {
   vpc_id      = aws_vpc.vpc-b.id
   auto_accept = true
 }
-resource "aws_vpc_peering_connection" "vpc-a-peering-c" {
-  peer_vpc_id = aws_vpc.vpc-a.id
-  vpc_id      = aws_vpc.vpc-c.id
-  auto_accept = true
-}
-resource "aws_vpc_peering_connection" "vpc-b-peering-a" {
-  peer_vpc_id = aws_vpc.vpc-b.id
-  vpc_id      = aws_vpc.vpc-a.id
-  auto_accept = true
-}
 resource "aws_vpc_peering_connection" "vpc-c-peering-a" {
   peer_vpc_id = aws_vpc.vpc-c.id
   vpc_id      = aws_vpc.vpc-a.id
   auto_accept = true
+}
+resource "aws_route" "vpc-a-peering-b-rt-pvt" {
+  route_table_id            = aws_route_table.vpc-a-rt-private.id
+  destination_cidr_block    = aws_vpc.vpc-b.cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.vpc-a-peering-b.id
+}
+resource "aws_route" "vpc-b-peering-a-rt-pvt" {
+  route_table_id            = aws_route_table.vpc-b-rt-private.id
+  destination_cidr_block    = aws_vpc.vpc-a.cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.vpc-a-peering-b.id
+}
+resource "aws_route" "vpc-a-peering-c-rt-pvt" {
+  route_table_id            = aws_route_table.vpc-a-rt-private.id
+  destination_cidr_block    = aws_vpc.vpc-c.cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.vpc-c-peering-a.id
+}
+resource "aws_route" "vpc-c-peering-a-rt-pvt" {
+  route_table_id            = aws_route_table.vpc-c-rt-private.id
+  destination_cidr_block    = aws_vpc.vpc-a.cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.vpc-c-peering-a.id
 }
