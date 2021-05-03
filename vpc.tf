@@ -247,7 +247,7 @@ resource "aws_route_table" "vpc-b-rt-private" {
   tags   = merge(local.common_tags, { Name = "VPC B - Route table - Private" })
 }
 resource "aws_route_table" "vpc-c-rt-private" {
-  vpc_id = aws_vpc.vpc-b.id
+  vpc_id = aws_vpc.vpc-c.id
   tags   = merge(local.common_tags, { Name = "VPC C - Route table - Private" })
 }
 resource "aws_route_table_association" "vpc-a-rt-public-ass-subpub-az-a" {
